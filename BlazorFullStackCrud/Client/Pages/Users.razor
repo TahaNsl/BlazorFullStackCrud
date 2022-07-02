@@ -1,0 +1,45 @@
+﻿@page "/users"
+@inject IUserService UserService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Users</PageTitle>
+
+<h3>Users</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>User Name</th>
+            <th>Emil</th>
+            <th>Password</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in UserService.Users)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>@user.Password</td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+        protected override async Task OnInitializedAsync()
+    {
+        await UserService.GetUsers();
+    }
+
+    //void ShowHero(int id)
+    //{
+    //    NavigationManager.NavigateTo($"hero/{id}");
+    //}
+
+    //void CreateNewHero()
+    //{
+    //    NavigationManager.NavigateTo("/hero");
+    //}
+}
