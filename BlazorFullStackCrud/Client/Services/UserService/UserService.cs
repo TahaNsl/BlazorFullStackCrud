@@ -15,6 +15,7 @@ namespace BlazorFullStackCrud.Client.Services.UserService
         }
 
         public List<User> Users { get; set; } = new List<User>();
+        public List<Role> Roles { get; set; } = new List<Role>();
 
         public async Task CreateUser(User user)
         {

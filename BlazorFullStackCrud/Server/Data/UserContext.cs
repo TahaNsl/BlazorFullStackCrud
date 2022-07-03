@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace BlazorFullStackCrud.Server.Data
 {
-    public partial class UserContext : DbContext
+    public class UserContext : DbContext
     {
         public UserContext()
         {
@@ -65,9 +65,7 @@ namespace BlazorFullStackCrud.Server.Data
                     .HasConstraintName("FK_User_Role");
             });
 
-            OnModelCreatingPartial(modelBuilder);
         }
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
