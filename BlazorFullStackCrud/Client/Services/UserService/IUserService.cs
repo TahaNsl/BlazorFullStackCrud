@@ -6,7 +6,7 @@
 
         List<Role> Roles { get; set; }
 
-        Task<User> GetSingleUser(int id);
+        Task<User> GetSingleUser(string userName);
 
         Task CreateUser(User user);
 

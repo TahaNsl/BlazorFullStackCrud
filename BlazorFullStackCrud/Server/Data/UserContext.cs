@@ -9,20 +9,16 @@ namespace BlazorFullStackCrud.Server.Data
 {
     public class UserContext : DbContext
     {
-        public UserContext()
+        public UserContext(DbContextOptions<UserContext> options) : base(options)
         {
         }
-
-        public UserContext(DbContextOptions<UserContext> options)
-            : base(options)
-        {
-        }
-
-        public DbSet<Role> Role { get; set; }
-        public DbSet<User> User { get; set; }
-        public DbSet<User> Users { get; set; }
 
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Role> Role { get; set; }
+
+        public DbSet<User> Users { get; set; }
+        public DbSet<User> User { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,20 +26,13 @@ namespace BlazorFullStackCrud.Server.Data
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.RoleName)
+                entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasMaxLength(10)
-                    .IsFixedLength();
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.Property(e => e.ConfirmPassword)
-                    .IsRequired()
-                    .HasMaxLength(60)
-                    .IsUnicode(false)
-                    .IsFixedLength();
-
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(320);
@@ -62,10 +51,9 @@ namespace BlazorFullStackCrud.Server.Data
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.User)
                     .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_User_Role");
             });
-
         }
-
     }
 }

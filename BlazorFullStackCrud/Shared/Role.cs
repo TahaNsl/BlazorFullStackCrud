@@ -16,7 +16,7 @@ namespace BlazorFullStackCrud.Shared
         }
 
         public int Id { get; set; }
-        public string RoleName { get; set; }
+        public string Name { get; set; }
 
         public virtual ICollection<User> User { get; set; }
     }

@@ -22,7 +22,7 @@ namespace BlazorFullStackCrud.Client.Services.UserService
             throw new NotImplementedException();
         }
 
-        public async Task<User> GetSingleUser(int id)
+        public async Task<User> GetSingleUser(string UserName)
         {
             throw new NotImplementedException();
         }
