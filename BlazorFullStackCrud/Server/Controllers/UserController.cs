@@ -8,9 +8,9 @@ namespace BlazorFullStackCrud.Server.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly UserContext _context;
 
-        public UserController(DataContext context)
+        public UserController(UserContext context)
         {
             _context = context;
         }

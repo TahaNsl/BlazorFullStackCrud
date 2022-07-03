@@ -41,10 +41,5 @@ namespace BlazorFullStackCrud.Server.Data
 
         public DbSet<Comic> Comics { get; set; }
 
-        public DbSet<User> Users { get; set; }
-
-        public DbSet<Role> Roles { get; set; }
-
-
     }
 }
