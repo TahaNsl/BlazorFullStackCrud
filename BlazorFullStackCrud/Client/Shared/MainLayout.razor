@@ -1,4 +1,6 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+@inject HttpClient _httpClient
 
 <div class="page">
     <div class="sidebar">
@@ -6,15 +8,42 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+
+        <AuthorizeView>
+            <Authorized>
+            <div class="top-row px-4">
+                 <h4><b>Hello @context.User.Identity.Name</b></h4> &nbsp;
+                 <button class="btn btn-danger" @onclick="LogoutUser">Logout</button>
+            </div>
+            </Authorized>
+            <NotAuthorized>
+            <div class="top-row px-4">
+                 <button class="btn btn-primary" @onclick="LoginUser">Login</button>
+            </div>
+            </NotAuthorized>
+        </AuthorizeView>
+
 
         <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
+
+@code{
+
+    private async Task LogoutUser()
+    {
+        await _httpClient.GetAsync("user/logoutuser");
+        NavigationManager.NavigateTo("/", true);
+    }
+
+    private void LoginUser()
+    {
+        NavigationManager.NavigateTo("/", true);
+    }
+
+}
 
 <RadzenDialog/>
 <RadzenNotification/>

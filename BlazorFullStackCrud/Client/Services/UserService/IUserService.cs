@@ -6,10 +6,8 @@
 
         List<Role> Roles { get; set; }
 
-        Task<User> GetSingleUser(string userName);
+        Task GetUsers();
+        Task LoginUser();
 
-        Task CreateUser(User user);
-
-        Task GetUsers();    
     }
 }

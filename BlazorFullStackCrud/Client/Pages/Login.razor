@@ -4,7 +4,7 @@
 
 <h3>Login</h3>
 
-<EditForm Model="user" OnSubmit="HandleLogin">
+<EditForm Model="user" OnSubmit="LoginUser">
     <div class="form-group">
         <lable for="username">Username</lable>
         <InputText id="username" @bind-Value="user.UserName" class="form-control" />
@@ -28,8 +28,10 @@
 
     private User user = new User();
 
-    async Task HandleLogin()
+    public async Task LoginUser()
     {
-            await UserService.CreateUser(user);
+        await UserService.LoginUser();
+        NavigationManager.NavigateTo("/profile", true);
     }
+
 }

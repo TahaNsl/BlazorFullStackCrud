@@ -2,6 +2,7 @@ global using BlazorFullStackCrud.Shared;
 global using Microsoft.EntityFrameworkCore;
 global using BlazorFullStackCrud.Server.Data;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,12 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 builder.Services.AddDbContext<UserContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+} 
+).AddCookie(); 
 
 
 var app = builder.Build();
@@ -38,6 +45,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 
 app.MapRazorPages();
 app.MapControllers();

@@ -1,6 +1,7 @@
-﻿using BlazorFullStackCrud.Shared;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+
 
 namespace BlazorFullStackCrud.Server.Controllers
 {
@@ -10,7 +11,9 @@ namespace BlazorFullStackCrud.Server.Controllers
     {
         private readonly UserContext _context;
 
-        public UserController(UserContext context)
+        private readonly ILogger<UserController> _logger;
+
+        public UserController(ILogger<UserContext> logger, UserContext context)
         {
             _context = context;
         }
@@ -22,28 +25,56 @@ namespace BlazorFullStackCrud.Server.Controllers
             return Ok(users);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<List<User>>> CreateUser(User user)
-        {
-            var ExistingRecord = _context.Users.Count(a => a.Email == user.Email);
-
-             if (ExistingRecord == 0)
-             {
-                    user.RoleId = 2;
-                    _context.Users.Add(user);
-                    await _context.SaveChangesAsync();
-             }
-             else
-             {
-
-             }
-
-            return Ok(await GetDbUsers());
-        }
-
         private async Task<List<User>> GetDbUsers()
         {
             return await _context.Users.ToListAsync();
         }
+
+        // Authentication Methods ---------------------------------
+
+        [HttpPost("loginuser")]
+        public async Task<ActionResult<User>> LoginUser(User user)
+        {
+            User loggedInUser = await _context.Users.Where(u => u.Email == user.Email && u.Password == user.Password).FirstOrDefaultAsync();
+
+            if (loggedInUser != null)
+            {
+                // create claim
+                var claim = new Claim(ClaimTypes.Name, loggedInUser.Email);
+
+                // create claimsIdentity
+                var claimsIdentity = new ClaimsIdentity(new[] { claim }, "serverAuth");
+
+                // create claimsPrincipal
+                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+                // Sing in User
+                await HttpContext.SignInAsync(claimsPrincipal);
+            }
+
+            return await Task.FromResult(loggedInUser);
+        }
+
+        [HttpGet("getcurrentuser")]
+        public async Task<ActionResult<User>> GetCurrentUser()
+        {
+            User currentUser = new User();
+
+            if(User.Identity.IsAuthenticated)
+            {
+                currentUser.Email = User.FindFirstValue(ClaimTypes.Name);
+            }
+
+
+            return await Task.FromResult(currentUser);
+        }
+
+        [HttpGet("logoutuser")]
+        public async Task<ActionResult<String>> LogOutUser()
+        {
+            await HttpContext.SignOutAsync();
+            return "Success";
+        }
+
     }
 }
