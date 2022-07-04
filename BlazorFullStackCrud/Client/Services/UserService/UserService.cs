@@ -19,7 +19,14 @@ namespace BlazorFullStackCrud.Client.Services.UserService
 
         public async Task CreateUser(User user)
         {
-            throw new NotImplementedException();
+            var result = await _http.PostAsJsonAsync("api/user", user);
+            await SetUsers(result);
+        }
+        private async Task SetUsers(HttpResponseMessage result)
+        {
+            var response = await result.Content.ReadFromJsonAsync<List<User>>();
+            Users = response;
+            _navigationManager.NavigateTo("users");
         }
 
         public async Task<User> GetSingleUser(string UserName)
