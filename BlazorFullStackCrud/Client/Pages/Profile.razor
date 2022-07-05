@@ -1,0 +1,43 @@
+﻿@page "/profile"
+@using BlazorFullStackCrud.Client.Services
+@using BlazorFullStackCrud.Shared
+@using System.Security.Claims
+@inject IProfileService ProfileService
+@inject NavigationManager NavigationManager
+
+<h2><b>Profile</b></h2> 
+<hr />
+
+<div class="col-8">
+    <input type="text" @bind-value="ProfileService.UserName" class="form-control" placeholder="first name">
+    <br/>
+    <input type="text" @bind-value="ProfileService.Email" class="form-control" placeholder="email address">
+    <br/>
+    <br/>
+    <button class="btn btn-primary" @onclick="ProfileService.UpdateProfile">Update Profile</button>
+    <span>&nbsp;&nbsp;</span>@ProfileService.Message
+</div>
+
+
+@code {
+
+    [CascadingParameter]
+    public Task<AuthenticationState> authenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationState; //_authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if(user.Identity.IsAuthenticated)
+        {
+            var claim = user.FindFirst(c => c.Type == ClaimTypes.NameIdentifier);
+            ProfileService.Id = Convert.ToInt32(claim?.Value);
+            await ProfileService.GetProfile();
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+    }
+}

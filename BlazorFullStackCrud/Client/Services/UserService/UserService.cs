@@ -28,7 +28,7 @@ namespace BlazorFullStackCrud.Client.Services.UserService
 
         public async Task GetUsers()
         {
-            var result = await _http.GetFromJsonAsync<List<User>>("api/user/getusers");
+            var result = await _http.GetFromJsonAsync<List<User>>("user");
             if (result != null)
             {
                 Users = result;

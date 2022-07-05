@@ -10,7 +10,14 @@ namespace BlazorFullStackCrud.Client
 {
     public class CustomAuthStateProvider : AuthenticationStateProvider
     {
+
         private readonly HttpClient _httpClient;
+
+
+        public CustomAuthStateProvider()
+        {
+
+        }
 
         public CustomAuthStateProvider(HttpClient httpClient)
         {
@@ -19,25 +26,23 @@ namespace BlazorFullStackCrud.Client
 
         public async override Task<AuthenticationState> GetAuthenticationStateAsync()
         {
+
             User currentUser = await _httpClient.GetFromJsonAsync<User>("user/getcurrentuser");
 
-            if(currentUser != null && currentUser.Email != null)
+            if (currentUser != null && currentUser.Email != null)
             {
-                // create claim
-                var claim = new Claim(ClaimTypes.Name, currentUser.Email);
-
-                // create claimsIdentity
-                var claimsIdentity = new ClaimsIdentity(new[] { claim }, "serverAuth");
-
-                // create claimsPrincipal
+                //create a claim
+                var claimEmailAdress = new Claim(ClaimTypes.Name, currentUser.Email);
+                var claimNameIdentifier = new Claim(ClaimTypes.NameIdentifier, Convert.ToString(currentUser.Id));
+                //create claimsIdentity
+                var claimsIdentity = new ClaimsIdentity(new[] { claimEmailAdress, claimNameIdentifier }, "serverAuth");
+                //create claimsPrincipal
                 var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
                 return new AuthenticationState(claimsPrincipal);
             }
             else
-            {
                 return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
-            }
         }
     }
 }

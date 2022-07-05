@@ -35,6 +35,7 @@ namespace BlazorFullStackCrud.Server.Controllers
         [HttpPost("loginuser")]
         public async Task<ActionResult<User>> LoginUser(User user)
         {
+            user.Password = Utility.Encrypt(user.Password);
             User loggedInUser = await _context.Users.Where(u => u.Email == user.Email && u.Password == user.Password).FirstOrDefaultAsync();
 
             if (loggedInUser != null)
@@ -60,11 +61,10 @@ namespace BlazorFullStackCrud.Server.Controllers
         {
             User currentUser = new User();
 
-            if(User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 currentUser.Email = User.FindFirstValue(ClaimTypes.Name);
             }
-
 
             return await Task.FromResult(currentUser);
         }
@@ -74,6 +74,25 @@ namespace BlazorFullStackCrud.Server.Controllers
         {
             await HttpContext.SignOutAsync();
             return "Success";
+        }
+
+        [HttpPut("updateprofile/{Id}")]
+        public async Task<User> UpdateProfile(int Id, [FromBody] User user)
+        {
+            User userToUpdate = await _context.Users.Where(u => u.Id == Id).FirstOrDefaultAsync();
+
+            userToUpdate.UserName = user.UserName;
+            userToUpdate.Email = user.Email;
+
+            await _context.SaveChangesAsync();
+
+            return await Task.FromResult(user);
+        }
+
+        [HttpGet("getprofile/{Email}")]
+        public async Task<User> GetProfile(string Email)
+        {
+            return await _context.Users.Where(u => u.Email == Email).FirstOrDefaultAsync();
         }
 
     }

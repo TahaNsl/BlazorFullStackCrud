@@ -19,7 +19,7 @@ namespace BlazorFullStackCrud.Client.Services.SuperHeroService
 
         public async Task CreateHero(SuperHero hero)
         {
-            var result = await _http.PostAsJsonAsync("api/superhero", hero);
+            var result = await _http.PostAsJsonAsync("superhero", hero);
             await SetHeroes(result);
         }
 
@@ -32,13 +32,13 @@ namespace BlazorFullStackCrud.Client.Services.SuperHeroService
 
         public async Task DeleteHero(int id)
         {
-            var result = await _http.DeleteAsync($"api/superhero/{id}");
+            var result = await _http.DeleteAsync($"superhero/{id}");
             await SetHeroes(result);
         }
 
         public async Task GetComics()
         {
-            var result = await _http.GetFromJsonAsync<List<Comic>>("api/superhero/comics");
+            var result = await _http.GetFromJsonAsync<List<Comic>>("superhero/comics");
             if (result != null)
             {
                 Comics = result;
@@ -47,7 +47,7 @@ namespace BlazorFullStackCrud.Client.Services.SuperHeroService
 
         public async Task<SuperHero> GetSingleHero(int id)
         {
-            var result = await _http.GetFromJsonAsync<SuperHero>($"api/superhero/{id}");
+            var result = await _http.GetFromJsonAsync<SuperHero>($"superhero/{id}");
             if (result != null)
             {
                 return result;
@@ -60,7 +60,7 @@ namespace BlazorFullStackCrud.Client.Services.SuperHeroService
 
         public async Task GetSuperHeroes()
         {
-            var result = await _http.GetFromJsonAsync<List<SuperHero>>("api/superhero");
+            var result = await _http.GetFromJsonAsync<List<SuperHero>>("superhero");
             if(result != null)
             {
                 Heroes = result;
@@ -69,7 +69,7 @@ namespace BlazorFullStackCrud.Client.Services.SuperHeroService
 
         public async Task UpdateHero(SuperHero hero)
         {
-            var result = await _http.PutAsJsonAsync($"api/superhero/{hero.Id}", hero);
+            var result = await _http.PutAsJsonAsync($"superhero/{hero.Id}", hero);
             await SetHeroes(result);
         }
     }
