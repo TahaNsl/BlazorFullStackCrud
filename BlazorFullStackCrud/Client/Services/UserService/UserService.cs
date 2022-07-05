@@ -7,6 +7,7 @@ namespace BlazorFullStackCrud.Client.Services.UserService
     {
         public List<User> Users { get; set; } = new List<User>();
         public List<Role> Roles { get; set; } = new List<Role>();
+        public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
 
@@ -37,13 +38,14 @@ namespace BlazorFullStackCrud.Client.Services.UserService
 
         public async Task LoginUser()
         {
-            await _http.PostAsJsonAsync<User>("api/user/loginuser", this);
+            await _http.PostAsJsonAsync<User>("user/loginuser", this);
         }
 
         public static implicit operator UserService(User user)
         {
             return new UserService
             {
+                UserName = user.UserName,
                 Email = user.Email,
                 Password = user.Password
             };
@@ -53,6 +55,7 @@ namespace BlazorFullStackCrud.Client.Services.UserService
         {
             return new User
             {
+                UserName = userService.UserName,
                 Email = userService.Email,
                 Password = userService.Password
             };

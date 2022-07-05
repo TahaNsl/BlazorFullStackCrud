@@ -1,7 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
-
+using BlazorFullStackCrud.Shared;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 
 namespace BlazorFullStackCrud.Server.Controllers
 {
@@ -35,7 +44,6 @@ namespace BlazorFullStackCrud.Server.Controllers
         [HttpPost("loginuser")]
         public async Task<ActionResult<User>> LoginUser(User user)
         {
-            user.Password = Utility.Encrypt(user.Password);
             User loggedInUser = await _context.Users.Where(u => u.Email == user.Email && u.Password == user.Password).FirstOrDefaultAsync();
 
             if (loggedInUser != null)
@@ -63,7 +71,8 @@ namespace BlazorFullStackCrud.Server.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                currentUser.Email = User.FindFirstValue(ClaimTypes.Name);
+                var emailAddress = User.FindFirstValue(ClaimTypes.Name);
+                currentUser = await _context.Users.Where(u => u.Email == emailAddress).FirstOrDefaultAsync();
             }
 
             return await Task.FromResult(currentUser);
@@ -89,10 +98,10 @@ namespace BlazorFullStackCrud.Server.Controllers
             return await Task.FromResult(user);
         }
 
-        [HttpGet("getprofile/{Email}")]
-        public async Task<User> GetProfile(string Email)
+        [HttpGet("getprofile/{Id}")]
+        public async Task<User> GetProfile(int Id)
         {
-            return await _context.Users.Where(u => u.Email == Email).FirstOrDefaultAsync();
+            return await _context.Users.Where(u => u.Id == Id).FirstOrDefaultAsync();
         }
 
     }
