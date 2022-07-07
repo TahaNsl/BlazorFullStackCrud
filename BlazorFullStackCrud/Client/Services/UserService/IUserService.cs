@@ -11,7 +11,14 @@
         public string Password { get; set; }
 
         Task GetUsers();
+
+        Task GetRoles();
+
         Task LoginUser();
+
+        Task CreateUser(User user);
+
+        //Task DeleteUser(int id);
 
     }
 }

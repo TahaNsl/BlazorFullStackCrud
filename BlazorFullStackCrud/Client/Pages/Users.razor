@@ -27,19 +27,24 @@
     </tbody>
 </table>
 
+<button class="btn btn-primary" @onclick="CreateUser">Create New User</button>
+
 @code {
-        protected override async Task OnInitializedAsync()
+
+    User user = new User { Role = new Role() };
+
+    protected override async Task OnInitializedAsync()
     {
         await UserService.GetUsers();
     }
 
-    //void ShowHero(int id)
+    //void ShowUser(int id)
     //{
-    //    NavigationManager.NavigateTo($"hero/{id}");
+    //    NavigationManager.NavigateTo($"user/{id}");
     //}
 
-    //void CreateNewHero()
-    //{
-    //    NavigationManager.NavigateTo("/hero");
-    //}
+    void CreateUser()
+    {
+       NavigationManager.NavigateTo("/createuser");
+    }
 }

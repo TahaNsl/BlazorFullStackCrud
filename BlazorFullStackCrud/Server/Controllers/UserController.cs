@@ -34,6 +34,41 @@ namespace BlazorFullStackCrud.Server.Controllers
             return Ok(users);
         }
 
+        [HttpGet("roles")]
+        public async Task<ActionResult<List<Role>>> GetRoles()
+        {
+            var roles = await _context.Roles.ToListAsync();
+            return Ok(roles);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<List<User>>> CreateUser(User user)
+        {
+            user.Role = null;
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(await GetDbUsers());
+        }
+
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult<List<User>>> DeleteUser(int id)
+        //{
+        //    var dbUser = await _context.Users
+        //        .Include(sh => sh.Role)
+        //        .FirstOrDefaultAsync(sh => sh.Id == id);
+        //    if (dbUser == null)
+        //    {
+        //        return NotFound("Sorry, No User For You!");
+        //    }
+
+        //    _context.Users.Remove(dbUser);
+
+        //    await _context.SaveChangesAsync();
+
+        //    return Ok(await GetDbUsers());
+        //}
+
         private async Task<List<User>> GetDbUsers()
         {
             return await _context.Users.ToListAsync();

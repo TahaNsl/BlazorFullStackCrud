@@ -36,6 +36,34 @@ namespace BlazorFullStackCrud.Client.Services.UserService
             }
         }
 
+        public async Task GetRoles()
+        {
+            var result = await _http.GetFromJsonAsync<List<Role>>("user/roles");
+            if (result != null)
+            {
+                Roles = result;
+            }
+        }
+
+        public async Task CreateUser(User user)
+        {
+            var result = await _http.PostAsJsonAsync("user", user);
+            await SetUsers(result);
+        }
+
+        //public async Task DeleteUser(int id)
+        //{
+        //    var result = await _http.DeleteAsync($"user/{id}");
+        //    await SetUsers(result);
+        //}
+
+        private async Task SetUsers(HttpResponseMessage result)
+        {
+            var response = await result.Content.ReadFromJsonAsync<List<User>>();
+            Users = response;
+            _navigationManager.NavigateTo("users");
+        }
+
         public async Task LoginUser()
         {
             await _http.PostAsJsonAsync<User>("user/loginuser", this);
