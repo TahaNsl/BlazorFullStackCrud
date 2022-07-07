@@ -13,6 +13,8 @@
     <br/>
     <input type="text" @bind-value="ProfileService.Email" class="form-control" placeholder="email address">
     <br/>
+    <input type="text" @bind-value="ProfileService.Password" class="form-control" placeholder="Password">
+    <br/>
     <br/>
     <button class="btn btn-primary" @onclick="ProfileService.UpdateProfile">Update Profile</button>
     <span>&nbsp;&nbsp;</span>@ProfileService.Message

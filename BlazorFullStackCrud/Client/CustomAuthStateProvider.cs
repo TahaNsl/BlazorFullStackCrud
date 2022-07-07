@@ -34,8 +34,9 @@ namespace BlazorFullStackCrud.Client
                 //create a claim
                 var claimEmailAdress = new Claim(ClaimTypes.Name, currentUser.Email);
                 var claimNameIdentifier = new Claim(ClaimTypes.NameIdentifier, Convert.ToString(currentUser.Id));
+                var claimRole = new Claim(ClaimTypes.Role, Convert.ToString(currentUser.Role == null ? "" : currentUser.Role));
                 //create claimsIdentity
-                var claimsIdentity = new ClaimsIdentity(new[] { claimEmailAdress, claimNameIdentifier }, "serverAuth");
+                var claimsIdentity = new ClaimsIdentity(new[] { claimEmailAdress, claimNameIdentifier, claimRole}, "serverAuth");
                 //create claimsPrincipal
                 var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 

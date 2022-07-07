@@ -8,6 +8,7 @@ namespace BlazorFullStackCrud.Client.Services.ProfileService
         public int Id { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
+        public string Password { get; set; }
         public string Message { get; set; }
 
         private HttpClient _httpClient;
@@ -39,6 +40,7 @@ namespace BlazorFullStackCrud.Client.Services.ProfileService
         {
             this.UserName = profileService.UserName;
             this.Email = profileService.Email;
+            this.Password = profileService.Password;
             //add more fields
         }
 
@@ -48,6 +50,7 @@ namespace BlazorFullStackCrud.Client.Services.ProfileService
             {
                 UserName = user.UserName,
                 Email = user.Email,
+                Password = user.Password,
                 Id = user.Id,
             };
         }
@@ -58,6 +61,7 @@ namespace BlazorFullStackCrud.Client.Services.ProfileService
             {
                 UserName = profileService.UserName,
                 Email = profileService.Email,
+                Password = profileService.Password,
                 Id = profileService.Id,
             };
         }
