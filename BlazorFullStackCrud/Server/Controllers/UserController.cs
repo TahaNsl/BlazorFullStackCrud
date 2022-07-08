@@ -45,6 +45,7 @@ namespace BlazorFullStackCrud.Server.Controllers
         public async Task<ActionResult<List<User>>> CreateUser(User user)
         {
             user.Role = null;
+            user.Password = Utility.Encrypt(user.Password);
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
@@ -79,6 +80,7 @@ namespace BlazorFullStackCrud.Server.Controllers
         [HttpPost("loginuser")]
         public async Task<ActionResult<User>> LoginUser(User user)
         {
+            user.Password = Utility.Encrypt(user.Password);
             User loggedInUser = await _context.Users.Where(u => u.Email == user.Email && u.Password == user.Password).FirstOrDefaultAsync();
 
             if (loggedInUser != null)

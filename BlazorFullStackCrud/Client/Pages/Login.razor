@@ -5,21 +5,23 @@
 <h3>Login</h3>
 <hr />
 
-<div class="col-6">
-    <input type="text" @bind="userService.UserName" class="form-control" placeholder="User Name">
-</div>
-<br />
-<div class="col-6">
-    <input type="text" @bind="userService.Email" class="form-control" placeholder="Email Address">
-</div>
-<br />
-<div class="col-6">
-    <input type="password" @bind="userService.Password" class="form-control" placeholder="password">
-</div>
-<br />
-<div class="col-6">
-    <button class="btn btn-primary" @onclick="LoginUser">Login</button>
-</div>
+
+<EditForm Model="userService" OnSubmit="LoginUser">
+    <div>
+        <lable for="Username">Username</lable>
+        <InputText id="username" @bind-Value="userService.UserName" class="form-control"></InputText>
+    </div>
+    <div>
+        <lable for="Email">Email Address</lable>
+        <InputText id="email" @bind-Value="userService.Email" class="form-control"></InputText>
+    </div>
+    <div>
+        <lable for="heroname">Password</lable>
+        <InputText id="password" @bind-Value="userService.Password" class="form-control"></InputText>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Login</button>
+</EditForm>
 
 @code {
 
