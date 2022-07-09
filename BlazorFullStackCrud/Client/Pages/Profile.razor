@@ -8,18 +8,25 @@
 <h2><b>Profile</b></h2> 
 <hr />
 
-<div class="col-8">
-    <input type="text" @bind-value="ProfileService.UserName" class="form-control" placeholder="first name">
-    <br/>
-    <input type="text" @bind-value="ProfileService.Email" class="form-control" placeholder="email address">
-    <br/>
-    <input type="text" @bind-value="ProfileService.Password" class="form-control" placeholder="Password">
-    <br/>
-    <br/>
+<EditForm Model="ProfileService">
+    <div>
+        <lable for="Username">Username</lable>
+        <InputText @bind-Value="ProfileService.UserName" class="form-control" placeholder="first name"></InputText>
+    </div>
+    <br />
+    <div>
+        <lable for="Email">Email Address</lable>
+        <InputText @bind-Value="ProfileService.Email" class="form-control" placeholder="email address"></InputText>
+    </div>
+    <br />
+    <div>
+        <lable for="heroname">Password</lable>
+        <InputText @bind-Value="ProfileService.Password" class="form-control" placeholder="Password"></InputText>
+    </div>
+    <br />
     <button class="btn btn-primary" @onclick="ProfileService.UpdateProfile">Update Profile</button>
     <span>&nbsp;&nbsp;</span>@ProfileService.Message
-</div>
-
+</EditForm>
 
 @code {
 
