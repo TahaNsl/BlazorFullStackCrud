@@ -1,0 +1,6 @@
+{
+  "netcore": {
+    "version": "6.0",
+    "csprojectFile": "BlazorFullStackCrud/Server/BlazorFullStackCrud.Server.csproj"
+  }
+}
