@@ -9,6 +9,14 @@
 <hr />
 
 <EditForm Model="ProfileService">
+
+    <div>
+        <img src="@ProfilePicDataUrl" style="width: 250px; height: 250px;"/> <br /> <br />
+        <InputFile OnChange="@OnInputFileChanged"></InputFile>
+    </div>
+
+    <br />
+
     <div>
         <lable for="Username">Username</lable>
         <InputText @bind-Value="ProfileService.UserName" class="form-control" placeholder="first name"></InputText>
@@ -32,6 +40,22 @@
 
     [CascadingParameter]
     public Task<AuthenticationState> authenticationState { get; set; }
+
+    public string ProfilePicDataUrl { get; set; }
+
+    private async Task OnInputFileChanged(InputFileChangeEventArgs inputFileChangeEvent)
+    {
+        // Get the file
+        var file = inputFileChangeEvent.File;
+
+        // Read the file in a byte array
+        var buffer = new byte[file.Size];
+        await file.OpenReadStream().ReadAsync(buffer);
+
+        // Convert byte array to base 64 string
+        ProfilePicDataUrl = $"data:image/png;base64,{Convert.ToBase64String(buffer)}";
+
+    }
 
     protected override async Task OnInitializedAsync()
     {
