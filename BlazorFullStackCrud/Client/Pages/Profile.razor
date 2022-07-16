@@ -11,10 +11,9 @@
 <EditForm Model="ProfileService">
 
     <div>
-        <img src="@ProfilePicDataUrl" style="width: 250px; height: 250px;"/> <br /> <br />
+        <img src="@ProfileService.ProfilePicUrl" style="width: 250px; height: 250px; border-radius: 10px;"/> <br /> <br />
         <InputFile OnChange="@OnInputFileChanged"></InputFile>
     </div>
-
     <br />
 
     <div>
@@ -22,26 +21,31 @@
         <InputText @bind-Value="ProfileService.UserName" class="form-control" placeholder="first name"></InputText>
     </div>
     <br />
+
     <div>
         <lable for="Email">Email Address</lable>
         <InputText @bind-Value="ProfileService.Email" class="form-control" placeholder="email address"></InputText>
     </div>
     <br />
+
     <div>
         <lable for="heroname">Password</lable>
         <InputText @bind-Value="ProfileService.Password" class="form-control" placeholder="Password"></InputText>
     </div>
     <br />
+
     <button class="btn btn-primary" @onclick="ProfileService.UpdateProfile">Update Profile</button>
     <span>&nbsp;&nbsp;</span>@ProfileService.Message
+
+    <br />
+    <br />
+
 </EditForm>
 
 @code {
 
     [CascadingParameter]
     public Task<AuthenticationState> authenticationState { get; set; }
-
-    public string ProfilePicDataUrl { get; set; }
 
     private async Task OnInputFileChanged(InputFileChangeEventArgs inputFileChangeEvent)
     {
@@ -50,10 +54,10 @@
 
         // Read the file in a byte array
         var buffer = new byte[file.Size];
-        await file.OpenReadStream().ReadAsync(buffer);
+        await file.OpenReadStream(1512000).ReadAsync(buffer);
 
         // Convert byte array to base 64 string
-        ProfilePicDataUrl = $"data:image/png;base64,{Convert.ToBase64String(buffer)}";
+        ProfileService.ProfilePicUrl = $"data:image/png;base64,{Convert.ToBase64String(buffer)}";
 
     }
 

@@ -129,6 +129,7 @@ namespace BlazorFullStackCrud.Server.Controllers
 
             userToUpdate.UserName = user.UserName;
             userToUpdate.Email = user.Email;
+            userToUpdate.ProfilePicUrl = user.ProfilePicUrl;
 
             await _context.SaveChangesAsync();
 

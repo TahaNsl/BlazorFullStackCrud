@@ -9,6 +9,10 @@ namespace BlazorFullStackCrud.Server.Data
 {
     public class UserContext : DbContext
     {
+        public UserContext()
+        {
+        }
+
         public UserContext(DbContextOptions<UserContext> options) : base(options)
         {
         }
@@ -18,7 +22,6 @@ namespace BlazorFullStackCrud.Server.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<User> User { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -52,7 +55,7 @@ namespace BlazorFullStackCrud.Server.Data
                     .WithMany(p => p.User)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_User_Role");
+                    .HasConstraintName("FK_User_Role1");
             });
         }
     }
