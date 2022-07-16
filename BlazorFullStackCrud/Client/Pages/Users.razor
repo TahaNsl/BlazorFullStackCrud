@@ -7,8 +7,28 @@
 <PageTitle>Users</PageTitle>
 
 <h3>Users</h3>
+<br />
 
-<table class="table">
+@if (@UserService.Users == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <RadzenDataGrid Data="@UserService.Users" TItem="User" PageSize="10" AllowPaging="true"
+        AllowFiltering="true" AllowColumnResize="true" AllowSorting="true">
+        <Columns>
+            <RadzenDataGridColumn TItem="User" Property="UserName" Title="User Name" />
+            <RadzenDataGridColumn TItem="User" Property="Email" Title="Email"/>
+            <RadzenDataGridColumn TItem="User" Property="Password" Title="Password"/>
+        </Columns>
+    </RadzenDataGrid>
+}
+<br />
+
+<button class="btn btn-primary" @onclick="CreateUser">Create New User</button>
+
+@*<table class="table">
     <thead>
         <tr>
             <th>User Name</th>
@@ -27,9 +47,7 @@
             </tr>
         }
     </tbody>
-</table>
-
-<button class="btn btn-primary" @onclick="CreateUser">Create New User</button>
+</table>*@
 
 @code {
 
