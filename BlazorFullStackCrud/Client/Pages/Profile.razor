@@ -3,6 +3,7 @@
 @using BlazorFullStackCrud.Shared
 @using System.Security.Claims
 @inject IProfileService ProfileService
+@inject IEmailService EmailService
 @inject NavigationManager NavigationManager
 
 <h2><b>Profile</b></h2> 
@@ -55,10 +56,21 @@
 
 </EditForm>
 
+<br />
+
+    <button class="btn btn-success" @onclick="SendMail">Email Verification</button>
+
+
 @code {
 
     [CascadingParameter]
     public Task<AuthenticationState> authenticationState { get; set; }
+
+    public async Task SendMail()
+    {
+        var email = ProfileService.Email;
+        await EmailService.Sendmail(email);
+    }
 
     private async Task OnInputFileChanged(InputFileChangeEventArgs inputFileChangeEvent)
     {
