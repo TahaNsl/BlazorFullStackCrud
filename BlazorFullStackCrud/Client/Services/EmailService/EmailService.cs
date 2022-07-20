@@ -14,7 +14,7 @@ namespace BlazorFullStackCrud.Client.Services.EmailService
 
         public async Task Sendmail(string email)
         {
-            await _httpClient.PostAsJsonAsync("email/sendmail", email);
+            await _httpClient.PostAsJsonAsync("email/Sendmail", email);
         }
     }
 }

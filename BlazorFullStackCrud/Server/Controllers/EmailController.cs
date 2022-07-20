@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Net.Mail;
+using MimeKit;
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using MimeKit.Text;
 
 namespace BlazorFullStackCrud.Server.Controllers
 {
@@ -9,37 +11,34 @@ namespace BlazorFullStackCrud.Server.Controllers
     [ApiController]
     public class EmailController : ControllerBase
     {
-        [HttpPost]
-        public void Sendmail(string email)
+        private readonly UserContext _context;
+
+        private readonly ILogger<EmailController> _logger;
+
+        private readonly IConfiguration _config;
+
+        public EmailController(IConfiguration config,ILogger<UserContext> logger, UserContext context)
+        {
+            _context = context;
+            _config = config;
+        }
+
+        [HttpPost("Sendmail")]
+        public void Sendmail([FromBody] string email)
         {
             try
             {
-                using (MailMessage mm = new MailMessage("tahanasrollahii@gmail.com", "natson@7869"))
-                {
-                    mm.From = new MailAddress("tahanasrollahii@gmail.com");
-                    mm.To.Add(new MailAddress(email));
-                    mm.Subject = "Verify your email";
-                    mm.Body = "<h1>Your Email Is Verified</h1>";
-                    mm.BodyEncoding = System.Text.Encoding.UTF8;
-                    mm.Priority = MailPriority.Normal;
-                    //if (model.Attachment.Length > 0)
-                    //{
-                    //    string fileName = Path.GetFileName(model.Attachment.FileName);
-                    //    mm.Attachments.Add(new Attachment(model.Attachment.OpenReadStream(), fileName));
-                    //}
-                    mm.IsBodyHtml = true;
-                    using (SmtpClient smtp = new SmtpClient())
-                    {
-                        smtp.Host = "smtp.gmail.com";
-                        smtp.EnableSsl = true;
-                        NetworkCredential NetworkCred = new NetworkCredential("tahanasrollahii@gmail.com", "natson@7869");
-                        smtp.UseDefaultCredentials = false;
-                        smtp.Credentials = NetworkCred;
-                        smtp.Port = 587;
-                        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                        smtp.Send(mm);
-                    }
-                }
+                    var Email = new MimeMessage();
+                    Email.From.Add(MailboxAddress.Parse("tahanasrollahii@gmail.com"));
+                    Email.To.Add(MailboxAddress.Parse(email));
+                    Email.Subject = "Verify Your Email (Taha Blazor)";
+                    Email.Body = new TextPart(TextFormat.Html) { Text = "<h1>Your email is verified now!</h1>" };
+
+                    using var smtp = new SmtpClient();
+                    smtp.Connect("smtp.gmail.com", 587); //SecureSocketOptions.StartTls
+                    smtp.Authenticate("tahanasrollahii@gmail.com", "natson@7869");
+                    smtp.Send(Email);
+                    smtp.Disconnect(true);
             }
             catch (Exception ex)
             {
