@@ -6,7 +6,30 @@
 
 <h3>Super Heroes</h3>
 
-<table class="table">
+@if (@SuperHeroService.Heroes == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <RadzenDataGrid Data="@SuperHeroService.Heroes" TItem="SuperHero" PageSize="10" AllowPaging="true"
+        AllowFiltering="true" AllowColumnResize="true" AllowSorting="true">
+        <Columns>
+            <RadzenDataGridColumn TItem="SuperHero" Property="FirstName" Title="First Name" />
+            <RadzenDataGridColumn TItem="SuperHero" Property="LastName" Title="Last Name"/>
+            <RadzenDataGridColumn TItem="SuperHero" Property="HeroName" Title="Hero Name"/>
+            <RadzenDataGridColumn TItem="SuperHero" Property="Comic.Name" Title="Comic Name"/>
+            <RadzenDataGridColumn Width="160px" TItem="SuperHero" Property="id" Title="Show Button">
+            <Template Context="Data">
+                <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="info" Class="m-1" Click=@(() => ShowHero(Data.Id)) Text="Show" />
+            </Template>
+        </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+}
+<br />
+
+@*<table class="table">
     <thead>
         <tr>
             <th>First Name</th>
@@ -30,7 +53,7 @@
             </tr>
         }
     </tbody>
-</table>
+</table>*@
 
 <button class="btn btn-primary" @onclick="CreateNewHero">Create New Hero</button>
 
