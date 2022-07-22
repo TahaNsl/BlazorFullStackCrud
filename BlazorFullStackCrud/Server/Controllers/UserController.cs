@@ -52,23 +52,23 @@ namespace BlazorFullStackCrud.Server.Controllers
             return Ok(await GetDbUsers());
         }
 
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult<List<User>>> DeleteUser(int id)
-        //{
-        //    var dbUser = await _context.Users
-        //        .Include(sh => sh.Role)
-        //        .FirstOrDefaultAsync(sh => sh.Id == id);
-        //    if (dbUser == null)
-        //    {
-        //        return NotFound("Sorry, No User For You!");
-        //    }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<List<User>>> DeleteUser(int id)
+        {
+            var dbUser = await _context.Users
+                .Include(sh => sh.Role)
+                .FirstOrDefaultAsync(sh => sh.Id == id);
+            if (dbUser == null)
+            {
+                return NotFound("Sorry, No User For You!");
+            }
 
-        //    _context.Users.Remove(dbUser);
+            _context.Users.Remove(dbUser);
 
-        //    await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-        //    return Ok(await GetDbUsers());
-        //}
+            return Ok(await GetUsers());
+        }
 
         private async Task<List<User>> GetDbUsers()
         {

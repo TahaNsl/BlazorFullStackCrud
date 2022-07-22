@@ -19,7 +19,7 @@
 
         Task CreateUser(User user);
 
-        //Task DeleteUser(int id);
+        Task DeleteUser(int id);
 
     }
 }

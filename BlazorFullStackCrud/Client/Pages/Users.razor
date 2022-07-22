@@ -46,6 +46,11 @@ else
             <RadzenDataGridColumn TItem="User" Property="UserName" Title="User Name" />
             <RadzenDataGridColumn TItem="User" Property="Email" Title="Email"/>
             <RadzenDataGridColumn TItem="User" Property="Password" Title="Password"/>
+            <RadzenDataGridColumn Width="170px" TItem="User" Property="Id" Title="Delete Button">
+            <Template Context="User">
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Class="m-1" Click=@(() => DeleteUser(User.Id)) Text="Delete" />
+            </Template>
+            </RadzenDataGridColumn>
         </Columns>
     </RadzenDataGrid>
 }
@@ -83,10 +88,10 @@ else
         await UserService.GetUsers();
     }
 
-    //void ShowUser(int id)
-    //{
-    //    NavigationManager.NavigateTo($"user/{id}");
-    //}
+    async Task DeleteUser(int id)
+    {
+        await UserService.DeleteUser(id);
+    }
 
     void CreateUser()
     {

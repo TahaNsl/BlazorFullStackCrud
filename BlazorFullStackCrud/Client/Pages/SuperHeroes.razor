@@ -33,9 +33,9 @@ else
             <RadzenDataGridColumn TItem="SuperHero" Property="Comic.Name" Title="Comic Name"/>
             <RadzenDataGridColumn Width="160px" TItem="SuperHero" Property="id" Title="Show Button">
             <Template Context="Data">
-                <RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="info" Class="m-1" Click=@(() => ShowHero(Data.Id)) Text="Show" />
+                <RadzenButton ButtonStyle="ButtonStyle.Success" Icon="info" Class="m-1" Click=@(() => ShowHero(Data.Id)) Text="Show" />
             </Template>
-        </RadzenDataGridColumn>
+            </RadzenDataGridColumn>
         </Columns>
     </RadzenDataGrid>
 }

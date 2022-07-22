@@ -52,18 +52,19 @@ namespace BlazorFullStackCrud.Client.Services.UserService
             await SetUsers(result);
         }
 
-        //public async Task DeleteUser(int id)
-        //{
-        //    var result = await _http.DeleteAsync($"user/{id}");
-        //    await SetUsers(result);
-        //}
-
         private async Task SetUsers(HttpResponseMessage result)
         {
             var response = await result.Content.ReadFromJsonAsync<List<User>>();
             Users = response;
             _navigationManager.NavigateTo("users");
         }
+
+        public async Task DeleteUser(int id)
+        {
+            var result = await _http.DeleteAsync($"user/{id}");
+            await SetUsers(result);
+        }
+
 
         public async Task LoginUser()
         {
