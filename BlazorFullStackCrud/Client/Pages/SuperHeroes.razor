@@ -19,9 +19,14 @@
 }
 else
 {
-    <RadzenDataGrid Data="@SuperHeroService.Heroes" TItem="SuperHero" PageSize="10" AllowPaging="true"
+    <RadzenDataGrid Data="@SuperHeroService.Heroes" TItem="SuperHero" PageSize="5" AllowPaging="true"
         AllowFiltering="true" AllowColumnResize="true" AllowSorting="true">
         <Columns>
+            <RadzenDataGridColumn Width="50px" TItem="SuperHero" Title="#" Filterable="false" Sortable="false" TextAlign="TextAlign.Center">
+                <Template Context="Hero">
+                    @(SuperHeroService.Heroes.IndexOf(Hero) + 1)
+                </Template>
+            </RadzenDataGridColumn>
             <RadzenDataGridColumn TItem="SuperHero" Property="FirstName" Title="First Name" />
             <RadzenDataGridColumn TItem="SuperHero" Property="LastName" Title="Last Name"/>
             <RadzenDataGridColumn TItem="SuperHero" Property="HeroName" Title="Hero Name"/>

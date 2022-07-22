@@ -24,7 +24,14 @@
 
         <div class="col">
            <div>
-              <img src="@ProfileService.ProfilePicUrl" style="width: 250px; height: 250px; border-radius: 10px;"/> <br /> <br />
+                    @if (@ProfileService.ProfilePicUrl == null)
+                    {
+                    <img src="/Images/user-profile.png" style="width: 250px; height: 250px; border-radius: 10px;"/> <br /> <br />
+                    }
+                    else
+                    {
+                    <img src="@ProfileService.ProfilePicUrl" style="width: 250px; height: 250px; border-radius: 10px;"/> <br /> <br />
+                    }
               <InputFile OnChange="@OnInputFileChanged"></InputFile>
            </div>
         </div>
