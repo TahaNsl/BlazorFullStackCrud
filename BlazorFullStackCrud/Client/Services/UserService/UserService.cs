@@ -56,13 +56,22 @@ namespace BlazorFullStackCrud.Client.Services.UserService
         {
             var response = await result.Content.ReadFromJsonAsync<List<User>>();
             Users = response;
-            _navigationManager.NavigateTo("users");
+            _navigationManager.NavigateTo("/users", true);
         }
 
         public async Task DeleteUser(int id)
         {
-            var result = await _http.DeleteAsync($"user/{id}");
-            await SetUsers(result);
+            try
+            {
+                var result = await _http.DeleteAsync($"user/{id}");
+                await SetUsers(result);
+            }
+            catch (Exception ex)
+            {
+
+                _ = ex.Message;
+            }
+            
         }
 
 

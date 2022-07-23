@@ -91,6 +91,7 @@ else
     async Task DeleteUser(int id)
     {
         await UserService.DeleteUser(id);
+        NavigationManager.NavigateTo("/users", true);
     }
 
     void CreateUser()
