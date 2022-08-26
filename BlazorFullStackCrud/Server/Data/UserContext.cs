@@ -17,11 +17,11 @@ namespace BlazorFullStackCrud.Server.Data
         {
         }
 
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<Role> Role { get; set; }
+        public virtual DbSet<Role> Role { get; set; }
+        public virtual DbSet<User> User { get; set; }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<User> User { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,25 +38,27 @@ namespace BlazorFullStackCrud.Server.Data
             {
                 entity.Property(e => e.Email)
                     .IsRequired()
-                    .HasMaxLength(320);
+                    .HasMaxLength(320)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasMaxLength(60)
-                    .IsUnicode(false)
-                    .IsFixedLength();
+                    .IsUnicode(false);
 
                 entity.Property(e => e.UserName)
                     .IsRequired()
-                    .HasMaxLength(10)
-                    .IsFixedLength();
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.User)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_User_Role1");
+                    .HasConstraintName("FK_User_Role");
             });
+
         }
+
     }
 }

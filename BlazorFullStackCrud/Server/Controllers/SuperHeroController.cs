@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorFullStackCrud.Server.Controllers
 {
@@ -34,7 +33,7 @@ namespace BlazorFullStackCrud.Server.Controllers
             var hero = await _context.SuperHeroes
                 .Include(h => h.Comic)
                 .FirstOrDefaultAsync(h => h.Id == id);
-            if(hero == null)
+            if (hero == null)
             {
                 return NotFound("Sorry, No Hero here!");
             }
@@ -45,8 +44,8 @@ namespace BlazorFullStackCrud.Server.Controllers
         public async Task<ActionResult<List<SuperHero>>> CreateSuperHero(SuperHero hero)
         {
             hero.Comic = null;
-            _context.SuperHeroes.Add(hero); 
-            await _context.SaveChangesAsync(); 
+            _context.SuperHeroes.Add(hero);
+            await _context.SaveChangesAsync();
 
             return Ok(await GetDbHeroes());
         }
@@ -84,7 +83,7 @@ namespace BlazorFullStackCrud.Server.Controllers
             }
 
             _context.SuperHeroes.Remove(dbHero);
-            
+
             await _context.SaveChangesAsync();
 
             return Ok(await GetDbHeroes());

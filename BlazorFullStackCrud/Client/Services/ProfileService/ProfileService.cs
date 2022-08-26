@@ -1,5 +1,4 @@
 using System.Net.Http.Json;
-using Microsoft.AspNetCore.Components;
 
 namespace BlazorFullStackCrud.Client.Services.ProfileService
 {

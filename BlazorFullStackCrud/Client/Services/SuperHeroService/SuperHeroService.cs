@@ -61,7 +61,7 @@ namespace BlazorFullStackCrud.Client.Services.SuperHeroService
         public async Task GetSuperHeroes()
         {
             var result = await _http.GetFromJsonAsync<List<SuperHero>>("superhero");
-            if(result != null)
+            if (result != null)
             {
                 Heroes = result;
             }

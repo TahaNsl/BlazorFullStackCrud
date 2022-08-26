@@ -1,5 +1,5 @@
-﻿using System.Net.Http.Json;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
+using System.Net.Http.Json;
 
 namespace BlazorFullStackCrud.Client.Services.UserService
 {
@@ -71,9 +71,8 @@ namespace BlazorFullStackCrud.Client.Services.UserService
 
                 _ = ex.Message;
             }
-            
-        }
 
+        }
 
         public async Task LoginUser()
         {

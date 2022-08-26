@@ -1,16 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
-using BlazorFullStackCrud.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
 
 namespace BlazorFullStackCrud.Server.Controllers
 {
@@ -58,6 +48,7 @@ namespace BlazorFullStackCrud.Server.Controllers
             var dbUser = await _context.Users
                 .Include(sh => sh.Role)
                 .FirstOrDefaultAsync(sh => sh.Id == id);
+
             if (dbUser == null)
             {
                 return NotFound("Sorry, No User For You!");
@@ -81,6 +72,7 @@ namespace BlazorFullStackCrud.Server.Controllers
         public async Task<ActionResult<User>> LoginUser(User user)
         {
             user.Password = Utility.Encrypt(user.Password);
+
             User loggedInUser = await _context.Users.Where(u => u.Email == user.Email && u.Password == user.Password).FirstOrDefaultAsync();
 
             if (loggedInUser != null)
@@ -109,7 +101,14 @@ namespace BlazorFullStackCrud.Server.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var emailAddress = User.FindFirstValue(ClaimTypes.Name);
-                currentUser = await _context.Users.Where(u => u.Email == emailAddress).FirstOrDefaultAsync();
+                currentUser = await _context.Users.Where(u => u.Email == emailAddress)
+                    .FirstOrDefaultAsync();
+
+                var Role = await _context.Roles.Where(r => r.Id == currentUser.RoleId).FirstOrDefaultAsync();
+
+                var RoleName = Role.Name;
+
+                currentUser.Role.Name = RoleName;
             }
 
             return await Task.FromResult(currentUser);
@@ -119,7 +118,7 @@ namespace BlazorFullStackCrud.Server.Controllers
         public async Task<ActionResult<String>> LogOutUser()
         {
             await HttpContext.SignOutAsync();
-            return "Success";
+            return "Loged Out!";
         }
 
         [HttpPut("updateprofile/{Id}")]

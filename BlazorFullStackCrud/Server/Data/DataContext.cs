@@ -18,26 +18,26 @@ namespace BlazorFullStackCrud.Server.Data
             modelBuilder.Entity<SuperHero>().HasData(
             new SuperHero
             {
-            Id = 1,
-            FirstName = "Peter",
-            LastName = "Parker",
-            HeroName = "Spiderman",
-            ComicId = 1,
+                Id = 1,
+                FirstName = "Peter",
+                LastName = "Parker",
+                HeroName = "Spiderman",
+                ComicId = 1,
             },
 
             new SuperHero
             {
-            Id = 2,
-            FirstName = "Bruce",
-            LastName = "Wayne",
-            HeroName = "Batman",
-            ComicId = 2,
+                Id = 2,
+                FirstName = "Bruce",
+                LastName = "Wayne",
+                HeroName = "Batman",
+                ComicId = 2,
             }
 
            );
         }
 
-        public DbSet<SuperHero> SuperHeroes { get; set; }   
+        public DbSet<SuperHero> SuperHeroes { get; set; }
 
         public DbSet<Comic> Comics { get; set; }
 

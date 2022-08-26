@@ -2,7 +2,7 @@
 @inject IUserService UserService
 @inject NavigationManager NavigationManager
 @using Microsoft.AspNetCore.Authorization
-@*@attribute [Authorize(Roles ="admin")]*@
+@*@attribute [Authorize(Roles ="Admin")]*@
 
 <style>
     body {
@@ -56,7 +56,7 @@ else
 }
 <br />
 
-<button class="btn btn-primary" @onclick="CreateUser">Create New User</button>
+<button class="btn btn-success" @onclick="CreateUser">Create New User</button>
 
 @*<table class="table">
     <thead>

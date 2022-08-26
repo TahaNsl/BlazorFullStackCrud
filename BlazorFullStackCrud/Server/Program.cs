@@ -1,7 +1,6 @@
+global using BlazorFullStackCrud.Server.Data;
 global using BlazorFullStackCrud.Shared;
 global using Microsoft.EntityFrameworkCore;
-global using BlazorFullStackCrud.Server.Data;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,8 +19,8 @@ builder.Services.AddDbContext<UserContext>(options =>
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-} 
-).AddCookie(); 
+}
+).AddCookie();
 
 
 var app = builder.Build();

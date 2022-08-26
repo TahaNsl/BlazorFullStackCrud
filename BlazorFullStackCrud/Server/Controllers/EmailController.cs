@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Mvc;
 using MimeKit;
-using MailKit.Net.Smtp;
-using MailKit.Security;
 using MimeKit.Text;
 
 namespace BlazorFullStackCrud.Server.Controllers
@@ -17,7 +15,7 @@ namespace BlazorFullStackCrud.Server.Controllers
 
         private readonly IConfiguration _config;
 
-        public EmailController(IConfiguration config,ILogger<UserContext> logger, UserContext context)
+        public EmailController(IConfiguration config, ILogger<UserContext> logger, UserContext context)
         {
             _context = context;
             _config = config;
@@ -28,17 +26,17 @@ namespace BlazorFullStackCrud.Server.Controllers
         {
             try
             {
-                    var Email = new MimeMessage();
-                    Email.From.Add(MailboxAddress.Parse("tahanasrollahii@gmail.com"));
-                    Email.To.Add(MailboxAddress.Parse(email));
-                    Email.Subject = "Verify Your Email (Taha Blazor)";
-                    Email.Body = new TextPart(TextFormat.Html) { Text = "<h1>Your email is verified now!</h1>" };
+                var Email = new MimeMessage();
+                Email.From.Add(MailboxAddress.Parse("tahanasrollahii@gmail.com"));
+                Email.To.Add(MailboxAddress.Parse(email));
+                Email.Subject = "Verify Your Email (Taha Blazor)";
+                Email.Body = new TextPart(TextFormat.Html) { Text = "<h1>Your email is verified now!</h1>" };
 
-                    using var smtp = new SmtpClient();
-                    smtp.Connect("smtp.gmail.com", 587); //SecureSocketOptions.StartTls
-                    smtp.Authenticate("tahanasrollahii@gmail.com", "natson@7869");
-                    smtp.Send(Email);
-                    smtp.Disconnect(true);
+                using var smtp = new SmtpClient();
+                smtp.Connect("smtp.gmail.com", 587); //SecureSocketOptions.StartTls
+                smtp.Authenticate("tahanasrollahii@gmail.com", "natson@7869");
+                smtp.Send(Email);
+                smtp.Disconnect(true);
             }
             catch (Exception ex)
             {

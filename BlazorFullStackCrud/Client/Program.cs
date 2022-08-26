@@ -1,11 +1,11 @@
+global using BlazorFullStackCrud.Client.Services.EmailService;
+global using BlazorFullStackCrud.Client.Services.ProfileService;
 global using BlazorFullStackCrud.Client.Services.SuperHeroService;
 global using BlazorFullStackCrud.Client.Services.UserService;
-global using BlazorFullStackCrud.Client.Services.ProfileService;
-global using BlazorFullStackCrud.Client.Services.EmailService;
 global using BlazorFullStackCrud.Shared;
 using BlazorFullStackCrud.Client;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Radzen;
 

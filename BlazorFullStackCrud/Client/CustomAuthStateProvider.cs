@@ -1,10 +1,6 @@
-﻿using System.Net.Http;
+﻿using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http.Json;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using BlazorFullStackCrud.Shared;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
 
 namespace BlazorFullStackCrud.Client
 {
@@ -26,18 +22,22 @@ namespace BlazorFullStackCrud.Client
 
         public async override Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-
             User currentUser = await _httpClient.GetFromJsonAsync<User>("user/getcurrentuser");
 
             if (currentUser != null && currentUser.Email != null)
             {
-                //create a claim
+                // create claim
+
                 var claimEmailAdress = new Claim(ClaimTypes.Name, currentUser.Email);
+
                 var claimNameIdentifier = new Claim(ClaimTypes.NameIdentifier, Convert.ToString(currentUser.Id));
-                var claimRole = new Claim(ClaimTypes.Role, Convert.ToString(currentUser.Role == null ? "" : currentUser.Role));
-                //create claimsIdentity
-                var claimsIdentity = new ClaimsIdentity(new[] { claimEmailAdress, claimNameIdentifier, claimRole}, "serverAuth");
-                //create claimsPrincipal
+
+                var claimRole = new Claim(ClaimTypes.Role, Convert.ToString(currentUser.Role.Name == null ? "" : currentUser.Role.Name));
+
+                // create claimsIdentity
+                var claimsIdentity = new ClaimsIdentity(new[] { claimEmailAdress, claimNameIdentifier, claimRole }, "serverAuth");
+
+                // create claimsPrincipal
                 var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
                 return new AuthenticationState(claimsPrincipal);

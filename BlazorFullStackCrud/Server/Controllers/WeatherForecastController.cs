@@ -1,4 +1,3 @@
-using BlazorFullStackCrud.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorFullStackCrud.Server.Controllers

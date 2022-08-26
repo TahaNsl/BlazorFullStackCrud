@@ -1,6 +1,4 @@
-﻿using System.Net;
-using System.Net.Http.Json;
-using System.Net.Mail;
+﻿using System.Net.Http.Json;
 
 namespace BlazorFullStackCrud.Client.Services.EmailService
 {
