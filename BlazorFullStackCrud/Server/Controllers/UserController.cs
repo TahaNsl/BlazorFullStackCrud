@@ -102,7 +102,11 @@ namespace BlazorFullStackCrud.Server.Controllers
             {
                 var emailAddress = User.FindFirstValue(ClaimTypes.Name);
                 currentUser = await _context.Users.Where(u => u.Email == emailAddress)
+                    .Include(r => r.Role)
                     .FirstOrDefaultAsync();
+
+                currentUser.Role.User = null;
+
             }
 
             return await Task.FromResult(currentUser);
